@@ -30,15 +30,38 @@ $('#color option').eq(0).attr("selected",true);
 
 $('#design').on('change', function(event){
     const selectedDesign = event.target.value;
-    if (selectedDesign === "js puns"){
+    if (selectedDesign === "js puns") {
         $('#color option').eq(1).show().attr("selected",true).next().show().next().show();
         $('#color option').eq(4).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
-     } else {
+     } else if (selectedDesign === "heart js") {
         $('#color option').eq(4).show().attr("selected",true).next().show().next().show();
         $('#color option').eq(1).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
 
+     } else {
+        $('#color option').hide(); 
+        $('#color option').eq(0).show().attr("selected",true);
+        $('#color option').eq(1).attr('selected',false);
+        $('#color option').eq(4).attr('selected',false);
      }
+
+});
+
+let $totalCostDiv = '<div>"This is a div."</div>';
+$('.activities').append($totalCostDiv);
+
+let $totalCost = 0;
+
+$('.activities').on('click', function(event){
+    const clicked = event.target.value;
+    // If 'other' is selected than we show the input field for other
+    // if (clicked){
+    //      $totalCost = $totalCost += clicked.attr('data-cost');
+    //  } else {
+    //     $totalCost = $totalCost -= clicked.attr('data-cost');
+    //  }
+     console.log($totalCost);
+     console.log($clicked);
 
 });
