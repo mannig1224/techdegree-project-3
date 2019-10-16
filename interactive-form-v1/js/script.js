@@ -59,11 +59,11 @@ $('.activities').on('click', function(event){
     let price = parseInt(clicked.dataset.cost.match(/\d+/g));
     console.log(price);
     
-    // if (clicked.checked){
-    //      totalCost = totalCost += price;
-    //  } else {
-    //     totalCost = totalCost -= price;
-    //  }
-    //  console.log(totalCost);
+    if (clicked.checked){
+         totalCost = totalCost += price;
+     } else {
+        totalCost = totalCost -= price;
+     }
+     console.log(totalCost);
 
 });
