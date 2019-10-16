@@ -55,7 +55,6 @@ let $totalCost = 0;
 
 $('.activities').on('click', function(event){
     const clicked = event.target.value;
-    // If 'other' is selected than we show the input field for other
     // if (clicked){
     //      $totalCost = $totalCost += clicked.attr('data-cost');
     //  } else {
