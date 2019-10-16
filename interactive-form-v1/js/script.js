@@ -48,19 +48,22 @@ $('#design').on('change', function(event){
 
 });
 
-let $totalCostDiv = '<div>"This is a div."</div>';
-$('.activities').append($totalCostDiv);
+let totalCostDiv = $('<div>"This is a div."</div>');
+$('.activities').append(totalCostDiv);
 
-let $totalCost = 0;
+let totalCost = 0;
 
 $('.activities').on('click', function(event){
-    const clicked = event.target.value;
-    // if (clicked){
-    //      $totalCost = $totalCost += clicked.attr('data-cost');
+    const clicked = event.target;
+    console.log(clicked.dataset.cost);
+    let price = parseInt(clicked.dataset.cost.match(/\d+/g));
+    console.log(price);
+    
+    // if (clicked.checked){
+    //      totalCost = totalCost += price;
     //  } else {
-    //     $totalCost = $totalCost -= clicked.attr('data-cost');
+    //     totalCost = totalCost -= price;
     //  }
-     console.log($totalCost);
-     console.log($clicked);
+    //  console.log(totalCost);
 
 });
