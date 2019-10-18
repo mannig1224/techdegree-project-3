@@ -50,12 +50,26 @@ $('#design').on('change', function(event){
 
 let $totalCostDiv = $('<div>"This is a div."</div>');
 $('.activities').append($totalCostDiv);
-
 let totalCost = 0;
 
 $('.activities').on('click', function(event){
     const clicked = event.target;
     let price = parseInt(clicked.dataset.cost.match(/\d+/g));
+    let time = clicked.dataset.dayAndTime;
+    let name = clicked.name;
+     
+    $('.activities input').each(function(){
+        if(time === $(this).attr('data-day-and-time') && name !== $(this).attr('name')) 
+        {   
+            if (clicked.checked) {
+                $(this).attr("disabled", true);
+                $(this).parent().css('color', 'gray');
+            } else {
+                $(this).removeAttr("disabled");
+                $(this).parent().css('color', 'black');
+            }
+        } 
+    });
     
     if (clicked.checked){
          totalCost = totalCost += price;
@@ -63,4 +77,33 @@ $('.activities').on('click', function(event){
         totalCost = totalCost -= price;
      }
     $totalCostDiv.text('$' + totalCost);
+});
+
+$('#paypal').hide();
+$('#bitcoin').hide();
+
+$('#payment').on('change', function(event){
+    const paymentOption = event.target;
+
+    if (paymentOption.value !== $('#payment').eq(0).attr('value')) {
+        $('#payment option').eq(0).hide();
+    }
+
+    if (paymentOption.value === $('#payment option').eq(1).attr('value')) {
+        console.log('you picked the credit card');
+        $('#credit-card').show();
+        $('#paypal').hide();
+        $('#bitcoin').hide();
+    } else if (paymentOption.value === $('#payment option').eq(2).attr('value')) {
+        console.log('you picked the paypal');
+        $('#credit-card').hide();
+        $('#paypal').show();
+        $('#bitcoin').hide();
+    } else {
+        $('#credit-card').hide();
+        $('#paypal').hide();
+        $('#bitcoin').show();
+
+
+    }
 });
