@@ -90,12 +90,10 @@ $('#payment').on('change', function(event){
     }
 
     if (paymentOption.value === $('#payment option').eq(1).attr('value')) {
-        console.log('you picked the credit card');
         $('#credit-card').show();
         $('#paypal').hide();
         $('#bitcoin').hide();
     } else if (paymentOption.value === $('#payment option').eq(2).attr('value')) {
-        console.log('you picked the paypal');
         $('#credit-card').hide();
         $('#paypal').show();
         $('#bitcoin').hide();
