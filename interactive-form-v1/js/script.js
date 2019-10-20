@@ -48,7 +48,7 @@ $('#design').on('change', function(event){
 
 });
 
-let $totalCostDiv = $('<div>"This is a div."</div>');
+let $totalCostDiv = $('<div>   </div>');
 $('.activities').append($totalCostDiv);
 let totalCost = 0;
 
@@ -105,3 +105,30 @@ $('#payment').on('change', function(event){
 
     }
 });
+
+
+    let $invalidName = $('<div>"Invalid Name"</div>');
+    $('#name').append($invalidName);
+
+
+function validateName(){
+    $('#name').on('keyup', function(event){
+        let nameInput = $('#name').val();
+        let regex = /^[a-zA-Z ]{2,30}$/;
+        
+        if (regex.test(nameInput)){
+
+            console.log("Nice to meet you " + nameInput + '!');
+        } else {
+            console.log('Please enter valid name');
+        }
+    });
+
+}
+function validateMail(){
+
+}
+function validateActivity(){
+
+}
+validateName();
