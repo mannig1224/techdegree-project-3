@@ -48,7 +48,7 @@ $('#design').on('change', function(event){
 
 });
 
-let $totalCostDiv = $('<div>   </div>');
+let $totalCostDiv = $('<div id="total"></div>');
 $('.activities').append($totalCostDiv);
 let totalCost = 0;
 
@@ -106,29 +106,65 @@ $('#payment').on('change', function(event){
     }
 });
 
-
-    let $invalidName = $('<div>"Invalid Name"</div>');
-    $('#name').append($invalidName);
-
-
 function validateName(){
-    $('#name').on('keyup', function(event){
+    let $invalidName = $('<div id="validateName">Invalid Name</div>');
+    $('#name').before($invalidName);
+    $('#validateName').hide();
+    $('#name').on('focusout', function(event){
         let nameInput = $('#name').val();
         let regex = /^[a-zA-Z ]{2,30}$/;
         
         if (regex.test(nameInput)){
-
-            console.log("Nice to meet you " + nameInput + '!');
+            $('#validateName').hide();
+            return true;
+        } else if (nameInput === ''){
+            $('#validateName').show().css( "color", "red" ).text("Please provide name");
+            return false;
         } else {
-            console.log('Please enter valid name');
+            $('#validateName').show().css( "color", "red" );
+            return false;
         }
     });
 
 }
-function validateMail(){
+function validateEmail(){
+    let $invalidEmail = $('<div id="validateEmail">Invalid Email</div>');
+    $('#mail').before($invalidEmail);
+    $('#validateEmail').hide();
+    $('#mail').on('focusout', function(event){
+        let emailInput = $('#mail').val();
+        let regex =/(.+)@(.+){2,}\.(.+){2,}/;
+        
+        if (regex.test(emailInput)){
+            $('#validateEmail').hide();
+            return true;
 
+        } else if (emailInput === ''){
+            $('#validateEmail').show().css( "color", "red" ).text("Please provide email");
+            return false;
+        } else {
+            $('#validateEmail').show().css( "color", "red" );
+            return false;
+        }
+    });
 }
+
 function validateActivity(){
-
+    let invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
+    $totalCostDiv.before(invalidActivity);
+    $('#validateActivity').hide();
+    $('.activities').on('change', function(event){
+        
+        if ($totalCostDiv.text() == '$0'){
+            $('#validateActivity').show().css( "color", "red" );
+            return false;
+        } else {
+            $('#validateActivity').hide();
+            return true;
+        }
+});
 }
+
 validateName();
+validateEmail();
+validateActivity();
