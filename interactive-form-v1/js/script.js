@@ -18,7 +18,6 @@ $('#title').on('change', function(event){
 
 });
 
-
 // We want to initially hide the options to choose the shirt colors
 $('#color option').hide();
 
@@ -27,7 +26,7 @@ $('#color').prepend('<option>"Please select a T-shirt theme."</option>');
 $('#color option').eq(0).attr("selected",true);
 
 
-
+// Event listener looking for changes in the design id. Depending on what design we choose we will select which options show
 $('#design').on('change', function(event){
     const selectedDesign = event.target.value;
     if (selectedDesign === "js puns") {
@@ -38,7 +37,6 @@ $('#design').on('change', function(event){
         $('#color option').eq(4).show().attr("selected",true).next().show().next().show();
         $('#color option').eq(1).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
-
      } else {
         $('#color option').hide(); 
         $('#color option').eq(0).show().attr("selected",true);
@@ -47,20 +45,28 @@ $('#design').on('change', function(event){
      }
 
 });
-
+// Creating a variable that holds a div object.
 let $totalCostDiv = $('<div id="total"></div>');
+// We are appending the variable we created above.
 $('.activities').append($totalCostDiv);
+// Variable create do keep track of the total.
 let totalCost = 0;
-
+// Event listener in the activities class listening for clicks to determine what options are in the same time as other options.
 $('.activities').on('click', function(event){
     const clicked = event.target;
+    // We want to keep track of the price of what we clicked.
     let price = parseInt(clicked.dataset.cost.match(/\d+/g));
+    // and the time as well
     let time = clicked.dataset.dayAndTime;
     let name = clicked.name;
      
+
+    // Loop through the activities class inputs
     $('.activities input').each(function(){
+        // if the time of what we clicked is equal to anything in the loop and isn't equal the name of what we clicked
         if(time === $(this).attr('data-day-and-time') && name !== $(this).attr('name')) 
         {   
+            // then check to see if its clicked
             if (clicked.checked) {
                 $(this).attr("disabled", true);
                 $(this).parent().css('color', 'gray');
@@ -70,7 +76,7 @@ $('.activities').on('click', function(event){
             }
         } 
     });
-    
+    // add the the price of what we clicked to totalCost and subtract if we uncheck
     if (clicked.checked){
          totalCost = totalCost += price;
      } else {
@@ -78,12 +84,13 @@ $('.activities').on('click', function(event){
      }
     $totalCostDiv.text('$' + totalCost);
 });
-
+// We want to hide these options and only show them if they are selected in payment method.
 $('#paypal').hide();
 $('#bitcoin').hide();
-
+// We are checking what payment option we are selecting and then showing/hiding what we need
 $('#payment').on('change', function(event){
     const paymentOption = event.target;
+    
 
     if (paymentOption.value !== $('#payment').eq(0).attr('value')) {
         $('#payment option').eq(0).hide();
@@ -106,11 +113,22 @@ $('#payment').on('change', function(event){
     }
 });
 
+let $invalidName = $('<div id="validateName">Please provide name</div>');
+$('#name').before($invalidName);
+$('#validateName').hide().css( "color", "red" );
+let $invalidEmail = $('<div id="validateEmail">Please provide email</div>');
+$('#mail').before($invalidEmail);
+$('#validateEmail').hide().css( "color", "red" );
+let invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
+$totalCostDiv.before(invalidActivity);
+$('#validateActivity').hide().css( "color", "red" );
+let $invalidCard = $('<div id="validateCard">Invalid Card Number</div>');
+$('#cc-num').before($invalidCard);
+$('#validateCard').hide().css("color", "red");
+
 function validateName(){
-    let $invalidName = $('<div id="validateName">Invalid Name</div>');
-    $('#name').before($invalidName);
-    $('#validateName').hide();
-    $('#name').on('focusout', function(event){
+    
+    $('#name').on('keyup submit', function(event){
         let nameInput = $('#name').val();
         let regex = /^[a-zA-Z ]{2,30}$/;
         
@@ -121,17 +139,15 @@ function validateName(){
             $('#validateName').show().css( "color", "red" ).text("Please provide name");
             return false;
         } else {
-            $('#validateName').show().css( "color", "red" );
+            $('#validateName').show().css( "color", "red" ).text("Invalid name");
             return false;
         }
     });
 
 }
 function validateEmail(){
-    let $invalidEmail = $('<div id="validateEmail">Invalid Email</div>');
-    $('#mail').before($invalidEmail);
-    $('#validateEmail').hide();
-    $('#mail').on('focusout', function(event){
+    
+    $('#mail').on('keyup submit', function(event){
         let emailInput = $('#mail').val();
         let regex =/(.+)@(.+){2,}\.(.+){2,}/;
         
@@ -143,16 +159,14 @@ function validateEmail(){
             $('#validateEmail').show().css( "color", "red" ).text("Please provide email");
             return false;
         } else {
-            $('#validateEmail').show().css( "color", "red" );
+            $('#validateEmail').show().css( "color", "red" ).text("Invalid Email");
             return false;
         }
     });
 }
 
 function validateActivity(){
-    let invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
-    $totalCostDiv.before(invalidActivity);
-    $('#validateActivity').hide();
+    
     $('.activities').on('change', function(event){
         
         if ($totalCostDiv.text() == '$0'){
@@ -165,6 +179,90 @@ function validateActivity(){
 });
 }
 
+function validateCard(){
+    
+    $('#cc-num').on('focusout', function(event){
+        let ccInput = $('#cc-num').val();
+        let regex = /^[0-9]{16}$/;
+        if (regex.test(ccInput)){
+            $('#validateCard').hide();
+            return true;
+        } else if (ccInput === ''){
+            $('#validateCard').show().css( "color", "red" ).text("Please provide card number");
+            return false;
+        } else {
+            $('#validateCard').show().css( "color", "red" ).text("Invalid card number");
+            return false;
+        }
+    });
+}
+function validateZip(){
+    let $invalidZip = $('<div id="validateZip">Invalid Zip Code</div>');
+    $('#zip').before($invalidZip);
+    $('#validateZip').hide();
+    $('#zip').on('focusout', function(event){
+        let zipInput = $('#zip').val();
+        let regex = /^[0-9]{5}$/;
+        if (regex.test(zipInput)){
+            $('#validateZip').hide();
+            return true;
+        } else if (zipInput === ''){
+            $('#validateZip').show().css( "color", "red" ).text("Please provide zip");
+            return false;
+        } else {
+            $('#validateZip').show().css( "color", "red" ).text("Invalid zip");
+            return false;
+        }
+    });
+}
+function validateCvv(){
+    let $invalidCvv = $('<div id="validateCvv">Invalid CVV number</div>');
+    $('#cvv').before($invalidCvv);
+    $('#validateCvv').hide();
+    $('#cvv').on('focusout', function(event){
+        let cvvInput = $('#cvv').val();
+        let regex = /^[0-9]{3}$/;
+        if (regex.test(cvvInput)){
+            $('#validateCvv').hide();
+            return true;
+        } else if (cvvInput === ''){
+            $('#validateCvv').show().css( "color", "red" ).text("Please provide cvv");
+            return false;
+        } else {
+            $('#validateCvv').show().css( "color", "red" ).text("Invalid cvv");
+            return false;
+        }
+    });
+}
+function paymentMethod(){
+    $('#payment').on('change', function(event){
+        const paymentOption = event.target;
+    
+        if (paymentOption.value === $('#payment option').eq(1).attr('value')) {
+            validateCard();
+            validateZip();
+            validateCvv();
+        }
+    
+        
+    });
+}
+
+function masterValidate(){
+    $('form').on('submit', function(event){
+        event.preventDefault();
+        validateName();
+        validateEmail();
+        validateActivity();
+        paymentMethod();
+    });
+}
 validateName();
 validateEmail();
 validateActivity();
+paymentMethod();
+masterValidate();
+
+
+
+
