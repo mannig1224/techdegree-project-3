@@ -248,7 +248,6 @@ function paymentMethod(){
     });
 }
 
-function masterValidate(){
     $('form').on('submit', function(event){
         event.preventDefault();
         validateName();
@@ -256,12 +255,11 @@ function masterValidate(){
         validateActivity();
         paymentMethod();
     });
-}
+
 validateName();
 validateEmail();
 validateActivity();
 paymentMethod();
-masterValidate();
 
 
 
