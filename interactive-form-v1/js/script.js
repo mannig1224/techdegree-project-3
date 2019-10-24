@@ -167,10 +167,9 @@ function validateEmail(){
         return false;
     }
 }
-
 function validateActivity(){
     
-    if ($totalCostDiv.text() == '$0'){
+    if ($totalCostDiv.text() == '$0' || $totalCostDiv.text() == ''){
         $('#validateActivity').show().css( "color", "red" );
         return false;
     } else {
@@ -178,7 +177,6 @@ function validateActivity(){
         return true;
     }
 }
-
 function validateCard(){
     
     let ccInput = $('#cc-num').val();
@@ -225,25 +223,11 @@ function validateCvv(){
             return false;
         }
 }
-// function paymentMethod(){
-//     $('#payment').on('change', function(event){
-//         const paymentOption = event.target;
-//         if (paymentOption.value === $('#payment option').eq(1).attr('value')) {
-//             validateCard();
-//             validateZip();
-//             validateCvv();
-//         }
-//     });
-// }
-
-
-
-
 
 function masterValidate(){
     $('form').on('change', function(event){
+        event.preventDefault();
         let $input = $(event.target);
-        console.log($input);
         if($input.attr('id') === 'name'){
             validateName();
         }
@@ -253,7 +237,6 @@ function masterValidate(){
         if($input.attr('type') === 'checkbox'){
             validateActivity();
         }
-        $(this).children("option:selected").val();
         if($('#payment').children('option:selected').val() === 'Credit Card' || $('#payment').children('option:selected').val() === 'select method'){
             if($input.attr('id') === 'cc-num'){
                 validateCard();
@@ -267,10 +250,19 @@ function masterValidate(){
         }
 });
 
-    $('form').on('submit', function(event){
-        event.preventDefault();
-        masterValidate();
-});
+    
 }
 
 masterValidate();
+$('form').on('submit', function(event){
+    event.preventDefault();
+    validateName();
+    validateEmail();
+    validateActivity();
+    if($('#payment').children('option:selected').val() === 'Credit Card' || $('#payment').children('option:selected').val() === 'select method'){
+            validateCard();
+            validateZip();
+            validateCvv();
+    }
+
+});
