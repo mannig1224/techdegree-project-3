@@ -30,18 +30,18 @@ $('#color option').eq(0).attr("selected",true);
 $('#design').on('change', function(event){
     const selectedDesign = event.target.value;
     if (selectedDesign === "js puns") {
-        $('#color option').eq(1).show().attr("selected",true).next().show().next().show();
+        $('#color option').eq(1).show().prop("selected",true).next().show().next().show();
         $('#color option').eq(4).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
      } else if (selectedDesign === "heart js") {
-        $('#color option').eq(4).show().attr("selected",true).next().show().next().show();
+        $('#color option').eq(4).show().prop("selected",true).next().show().next().show();
         $('#color option').eq(1).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
      } else {
         $('#color option').hide(); 
-        $('#color option').eq(0).show().attr("selected",true);
-        $('#color option').eq(1).attr('selected',false);
-        $('#color option').eq(4).attr('selected',false);
+        $('#color option').eq(0).show().prop("selected",true);
+        $('#color option').eq(1).prop('selected',false);
+        $('#color option').eq(4).prop('selected',false);
      }
 
 });
