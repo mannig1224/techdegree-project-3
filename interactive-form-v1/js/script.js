@@ -45,12 +45,21 @@ $('#design').on('change', function(event){
      }
 
 });
+
+
+
+
+
 // Creating a variable that holds a div object.
 let $totalCostDiv = $('<div id="total"></div>');
 // We are appending the variable we created above.
 $('.activities').append($totalCostDiv);
 // Variable create do keep track of the total.
 let totalCost = 0;
+
+
+
+
 // Event listener in the activities class listening for clicks to determine what options are in the same time as other options.
 $('.activities').on('click', function(event){
     const clicked = event.target;
@@ -85,6 +94,7 @@ $('.activities').on('click', function(event){
     $totalCostDiv.text('$' + totalCost);
 });
 // We want to hide these options and only show them if they are selected in payment method.
+$('#credit-card').hide();
 $('#paypal').hide();
 $('#bitcoin').hide();
 // We are checking what payment option we are selecting and then showing/hiding what we need
@@ -180,7 +190,7 @@ function validateActivity(){
 function validateCard(){
     
     let ccInput = $('#cc-num').val();
-    let regex = /^[0-9]{16}$/;
+    let regex = /^[0-9]{13,16}$/;
     if (regex.test(ccInput)){
         $('#validateCard').hide();
         return true;
@@ -237,7 +247,7 @@ function masterValidate(){
         if($input.attr('type') === 'checkbox'){
             validateActivity();
         }
-        if($('#payment').children('option:selected').val() === 'Credit Card' || $('#payment').children('option:selected').val() === 'select method'){
+        if($('#payment').children('option:selected').val() === 'Credit Card'){
             if($input.attr('id') === 'cc-num'){
                 validateCard();
             }
@@ -254,15 +264,41 @@ function masterValidate(){
 }
 
 masterValidate();
+
 $('form').on('submit', function(event){
-    event.preventDefault();
-    validateName();
-    validateEmail();
-    validateActivity();
-    if($('#payment').children('option:selected').val() === 'Credit Card' || $('#payment').children('option:selected').val() === 'select method'){
-            validateCard();
-            validateZip();
-            validateCvv();
+    if(!validateName()){
+        $(' #name ').focus();
+        event.preventDefault();
     }
+    if(!validateEmail()){
+        $(' #mail ').focus();
+        event.preventDefault();
+    }
+    if(!validateActivity()){
+        event.preventDefault();
+    }
+
+    if($('#payment').children('option:selected').val() === 'Credit Card'){
+        if(!validateCard()){
+            $(' #cc-num ').focus();
+            event.preventDefault();
+        }
+        if(!validateZip()){
+            $(' #zip ').focus();
+            event.preventDefault();
+        }
+        if(!validateCvv()){
+            $(' #cvv ').focus();
+            event.preventDefault();
+        } else {
+            //ALLOWS USER SUBMIT
+        }
+    } 
+        if ($('#payment').children('option:selected').val() === 'Paypal') {
+            //ALLOWS USER SUBMIT
+        } 
+        if ($('#payment').children('option:selected').val() === 'Bitcoin') {
+            //ALLOWS USER SUBMIT
+        }
 
 });
