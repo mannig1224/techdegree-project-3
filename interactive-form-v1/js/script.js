@@ -24,16 +24,19 @@ $('#color option').hide();
 // Dynamically adds another option that ask for the user to pick a theme
 $('#color').prepend('<option>"Please select a T-shirt theme."</option>');
 $('#color option').eq(0).attr("selected",true);
-
+// Dynamically hides the color until an option is selected
+$('#colors-js-puns').hide();
 
 // Event listener looking for changes in the design id. Depending on what design we choose we will select which options show
 $('#design').on('change', function(event){
     const selectedDesign = event.target.value;
     if (selectedDesign === "js puns") {
+        $('#colors-js-puns').slideDown();
         $('#color option').eq(1).show().prop("selected",true).next().show().next().show();
         $('#color option').eq(4).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
      } else if (selectedDesign === "heart js") {
+        $('#colors-js-puns').slideDown();
         $('#color option').eq(4).show().prop("selected",true).next().show().next().show();
         $('#color option').eq(1).hide().next().hide().next().hide();
         $('#color option').eq(0).hide();
@@ -93,19 +96,16 @@ $('.activities').on('click', function(event){
      }
     $totalCostDiv.text('$' + totalCost);
 });
-// We want to hide these options and only show them if they are selected in payment method.
-$('#credit-card').hide();
+// We want to hide these options and only show them if they are selected in payment method. 
+// We also are selecting the credit payment by default as well as disabling the "select payment option"
+$('#payment option:eq(0)').hide();
+$('#payment option:eq(1)').prop('selected', true);
 $('#paypal').hide();
 $('#bitcoin').hide();
 // We are checking what payment option we are selecting and then showing/hiding what we need
 $('#payment').on('change', function(event){
     const paymentOption = event.target;
     
-
-    if (paymentOption.value !== $('#payment').eq(0).attr('value')) {
-        $('#payment option').eq(0).hide();
-    }
-
     if (paymentOption.value === $('#payment option').eq(1).attr('value')) {
         $('#credit-card').show();
         $('#paypal').hide();
@@ -124,23 +124,26 @@ $('#payment').on('change', function(event){
 });
 
 let $invalidName = $('<div id="validateName">Please provide name</div>');
-$('#name').before($invalidName);
-$('#validateName').hide().css( "color", "red" );
 let $invalidEmail = $('<div id="validateEmail">Please provide email</div>');
-$('#mail').before($invalidEmail);
-$('#validateEmail').hide().css( "color", "red" );
 let invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
-$totalCostDiv.before(invalidActivity);
-$('#validateActivity').hide().css( "color", "red" );
 let $invalidCard = $('<div id="validateCard">Invalid Card Number</div>');
-$('#cc-num').before($invalidCard);
-$('#validateCard').hide().css("color", "red");
 let $invalidZip = $('<div id="validateZip">Invalid Zip Code</div>');
-$('#zip').before($invalidZip);
-$('#validateZip').hide();
 let $invalidCvv = $('<div id="validateCvv">Invalid CVV number</div>');
+
+
+$('#name').before($invalidName);
+$('#mail').before($invalidEmail);
+$totalCostDiv.before(invalidActivity);
+$('#cc-num').before($invalidCard);
+$('#zip').before($invalidZip);
 $('#cvv').before($invalidCvv);
-$('#validateCvv').hide();
+
+$('#validateName').hide().css( "color", "red" );
+$('#validateEmail').hide().css( "color", "red" );
+$('#validateActivity').hide().css( "color", "red" );
+$('#validateCard').hide().css("color", "red");
+$('#validateZip').hide().css("color", "red");
+$('#validateCvv').hide().css("color", "red");
 
 
 function validateName(){
