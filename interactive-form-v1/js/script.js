@@ -158,7 +158,7 @@ function validateName(){
         $('#validateName').show().css( "color", "red" ).text("Please provide name");
         return false;
     } else {
-        $('#validateName').show().css( "color", "red" ).text("Invalid name");
+        $('#validateName').show().css( "color", "red" ).text("Name should be in the format “FirstName LastName");
         return false;
     }
 
@@ -176,7 +176,7 @@ function validateEmail(){
         $('#validateEmail').show().css( "color", "red" ).text("Please provide email");
         return false;
     } else {
-        $('#validateEmail').show().css( "color", "red" ).text("Invalid Email");
+        $('#validateEmail').show().css( "color", "red" ).text("Email should be in the format Manny@treehouse.com");
         return false;
     }
 }
