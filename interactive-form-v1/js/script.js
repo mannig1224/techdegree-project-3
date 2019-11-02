@@ -54,7 +54,7 @@ $('#design').on('change', function(event){
 
 
 // Creating a variable that holds a div object.
-let $totalCostDiv = $('<div id="total"></div>');
+const $totalCostDiv = $('<div id="total"></div>');
 // We are appending the variable we created above.
 $('.activities').append($totalCostDiv);
 // Variable create do keep track of the total.
@@ -67,10 +67,10 @@ let totalCost = 0;
 $('.activities').on('click', function(event){
     const clicked = event.target;
     // We want to keep track of the price of what we clicked.
-    let price = parseInt(clicked.dataset.cost.match(/\d+/g));
+    const price = parseInt(clicked.dataset.cost.match(/\d+/g));
     // and the time as well
-    let time = clicked.dataset.dayAndTime;
-    let name = clicked.name;
+    const time = clicked.dataset.dayAndTime;
+    const name = clicked.name;
      
 
     // Loop through the activities class inputs
@@ -123,12 +123,12 @@ $('#payment').on('change', function(event){
     }
 });
 
-let $invalidName = $('<div id="validateName">Please provide name</div>');
-let $invalidEmail = $('<div id="validateEmail">Please provide email</div>');
-let invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
-let $invalidCard = $('<div id="validateCard">Invalid Card Number</div>');
-let $invalidZip = $('<div id="validateZip">Invalid Zip Code</div>');
-let $invalidCvv = $('<div id="validateCvv">Invalid CVV number</div>');
+const $invalidName = $('<div id="validateName">Please provide name</div>');
+const $invalidEmail = $('<div id="validateEmail">Please provide email</div>');
+const invalidActivity = $('<div id="validateActivity">Please pick an activity</div>');
+const $invalidCard = $('<div id="validateCard">Invalid Card Number</div>');
+const $invalidZip = $('<div id="validateZip">Invalid Zip Code</div>');
+const $invalidCvv = $('<div id="validateCvv">Invalid CVV number</div>');
 
 
 $('#name').before($invalidName);
@@ -148,8 +148,8 @@ $('#validateCvv').hide().css("color", "red");
 
 function validateName(){
     
-    let nameInput = $('#name').val();
-    let regex = /^[a-zA-Z ]{2,30}$/;
+    const nameInput = $('#name').val();
+    const regex = /^[a-zA-Z ]{2,30}$/;
     
     if (regex.test(nameInput)){
         $('#validateName').hide();
@@ -158,15 +158,15 @@ function validateName(){
         $('#validateName').show().css( "color", "red" ).text("Please provide name");
         return false;
     } else {
-        $('#validateName').show().css( "color", "red" ).text("Name should be in the format “FirstName LastName");
+        $('#validateName').show().css( "color", "red" ).text('Name should be in the format FirstName LastName');
         return false;
     }
 
 }
 function validateEmail(){
     
-    let emailInput = $('#mail').val();
-    let regex =/(.+)@(.+){2,}\.(.+){2,}/;
+    const emailInput = $('#mail').val();
+    const regex =/(.+)@(.+){2,}\.(.+){2,}/;
     
     if (regex.test(emailInput)){
         $('#validateEmail').hide();
@@ -192,8 +192,8 @@ function validateActivity(){
 }
 function validateCard(){
     
-    let ccInput = $('#cc-num').val();
-    let regex = /^[0-9]{13,16}$/;
+    const ccInput = $('#cc-num').val();
+    const regex = /^[0-9]{13,16}$/;
     if (regex.test(ccInput)){
         $('#validateCard').hide();
         return true;
@@ -240,7 +240,7 @@ function validateCvv(){
 function masterValidate(){
     $('form').on('change', function(event){
         event.preventDefault();
-        let $input = $(event.target);
+        const $input = $(event.target);
         if($input.attr('id') === 'name'){
             validateName();
         }
